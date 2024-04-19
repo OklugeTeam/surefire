@@ -11,6 +11,7 @@ export default async function handleRequest(
   remixContext: EntryContext,
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy();
+  const cspheader = 'frame-ancestors https://builder.io https://*.builder.io'
 
   const body = await renderToReadableStream(
     <NonceProvider>
@@ -32,7 +33,7 @@ export default async function handleRequest(
   }
 
   responseHeaders.set('Content-Type', 'text/html');
-  responseHeaders.set('Content-Security-Policy', header);
+  responseHeaders.set('Content-Security-Policy', cspheader);
 
   return new Response(body, {
     headers: responseHeaders,
